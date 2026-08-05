@@ -1,0 +1,23 @@
+<% layout("/layouts/boilerplate") %>
+
+<section class="error-state">
+    <div class="error-icon">
+        <i class="fa-solid fa-compass"></i>
+    </div>
+
+    <p class="eyebrow">
+        WE TOOK A WRONG TURN
+    </p>
+
+    <h1>
+        <%= err.statusCode === 404 ? "This page is not here" : "Something went wrong" %>
+    </h1>
+
+    <p>
+        <%= err.message || "Please try again in a moment." %>
+    </p>
+
+    <a class="btn primary-btn" href="/listings">
+        Explore stays
+    </a>
+</section>

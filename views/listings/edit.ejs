@@ -1,0 +1,210 @@
+<% layout("/layouts/boilerplate") %>
+
+<section class="form-shell">
+
+    <div class="form-intro">
+
+        <p class="eyebrow">
+            HOST DASHBOARD
+        </p>
+
+        <h1>
+            Fine-tune your listing.
+        </h1>
+
+        <p>
+            Keep the details fresh so guests know exactly what to expect.
+        </p>
+
+    </div>
+
+    <form
+        method="POST"
+        action="/listings/<%= listing._id %>?_method=PUT"
+        enctype="multipart/form-data"
+        novalidate
+        class="needs-validation listing-form"
+    >
+
+        <div class="form-section">
+
+            <h2>About your place</h2>
+
+            <div class="mb-3">
+
+                <label for="title" class="form-label">
+                    Listing title
+                </label>
+
+                <input
+                    id="title"
+                    type="text"
+                    name="listing[title]"
+                    class="form-control"
+                    value="<%= listing.title %>"
+                    required
+                >
+
+                <div class="invalid-feedback">
+                    Please enter a title.
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label for="description" class="form-label">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="listing[description]"
+                    rows="5"
+                    class="form-control"
+                    required
+                ><%= listing.description %></textarea>
+
+                <div class="invalid-feedback">
+                    Please enter a description.
+                </div>
+
+            </div>
+
+            <div>
+
+                <label for="images" class="form-label">
+                    Listing images
+                </label>
+
+                <img
+                    src="<%= listing.image.url %>"
+                    alt="Current listing image"
+                    class="current-listing-image"
+                >
+
+                <input
+                    id="images"
+                    type="file"
+                    name="listing[images]"
+                    class="form-control"
+                    accept="image/*"
+                    multiple
+                >
+
+                <div class="form-hint">
+                    Add up to five more photos, or leave blank to keep the gallery.
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-section">
+
+            <h2>Location &amp; Price</h2>
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+
+                    <label for="price" class="form-label">
+                        Price per night (₹)
+                    </label>
+
+                    <input
+                        id="price"
+                        type="number"
+                        min="1"
+                        name="listing[price]"
+                        class="form-control"
+                        value="<%= listing.price %>"
+                        required
+                    >
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label for="category" class="form-label">
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        name="listing[category]"
+                        class="form-select"
+                    >
+
+                        <% ["Trending", "Rooms", "Iconic Cities", "Mountain", "Castles", "Amazing Pools", "Camping", "Farms", "Arctic", "Domes", "Boats"].forEach(category => { %>
+
+                            <option
+                                value="<%= category %>"
+                                <%= listing.category === category ? "selected" : "" %>
+                            >
+                                <%= category %>
+                            </option>
+
+                        <% }) %>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label for="location" class="form-label">
+                        City or area
+                    </label>
+
+                    <input
+                        id="location"
+                        type="text"
+                        name="listing[location]"
+                        class="form-control"
+                        value="<%= listing.location %>"
+                        required
+                    >
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label for="country" class="form-label">
+                        Country
+                    </label>
+
+                    <input
+                        id="country"
+                        type="text"
+                        name="listing[country]"
+                        class="form-control"
+                        value="<%= listing.country %>"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+
+            <a
+                href="/listings/<%= listing._id %>"
+                class="btn secondary-btn"
+            >
+                Cancel
+            </a>
+
+            <button class="btn primary-btn">
+                Save changes
+                <i class="fa-solid fa-check"></i>
+            </button>
+
+        </div>
+
+    </form>
+
+</section>

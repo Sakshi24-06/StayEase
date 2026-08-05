@@ -1,0 +1,103 @@
+<% layout("/layouts/boilerplate") %>
+
+<section class="my-listings-header">
+
+    <p class="eyebrow">
+        HOST DASHBOARD
+    </p>
+
+    <h1>
+        My listings
+    </h1>
+
+    <p>
+        Manage your spaces and keep every detail current.
+    </p>
+
+    <a class="btn primary-btn" href="/listings/new">
+        <i class="fa-solid fa-plus"></i>
+        Add listing
+    </a>
+
+</section>
+
+<% if (allListings.length) { %>
+
+    <div class="listing-grid">
+
+        <% allListings.forEach(listing => { %>
+
+            <a
+                href="/listings/<%= listing._id %>"
+                class="listing-link"
+            >
+
+                <article class="listing-card">
+
+                    <div class="listing-image-wrap">
+
+                        <img
+                            src="<%= listing.image.url %>"
+                            class="listing-image"
+                            alt="<%= listing.title %>"
+                        >
+
+                        <span class="listing-category">
+                            <%= listing.category || 'Trending' %>
+                        </span>
+
+                    </div>
+
+                    <div class="listing-card-body">
+
+                        <h2><%= listing.title %></h2>
+
+                        <p>
+                            <%= listing.location %>,
+                            <%= listing.country %>
+                        </p>
+
+                        <p class="listing-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <%= listing.averageRating || 'New' %>
+                        </p>
+
+                        <p class="listing-price">
+                            ₹<%= listing.price.toLocaleString('en-IN') %>
+                            <span> night</span>
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </a>
+
+        <% }) %>
+
+    </div>
+
+<% } else { %>
+
+    <section class="empty-state">
+
+        <i class="fa-solid fa-house-circle-check"></i>
+
+        <h2>
+            You have not listed a stay yet
+        </h2>
+
+        <p>
+            Share a space and start welcoming guests.
+        </p>
+
+        <a
+            class="btn primary-btn"
+            href="/listings/new"
+        >
+            Create your first listing
+        </a>
+
+    </section>
+
+<% } %>

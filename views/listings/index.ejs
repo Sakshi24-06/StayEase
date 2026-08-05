@@ -1,0 +1,211 @@
+<% layout("/layouts/boilerplate") %>
+
+<%
+const categories = [
+    ["Trending", "fa-fire"],
+    ["Rooms", "fa-bed"],
+    ["Iconic Cities", "fa-city"],
+    ["Mountain", "fa-mountain"],
+    ["Castles", "fa-chess-rook"],
+    ["Amazing Pools", "fa-person-swimming"],
+    ["Camping", "fa-campground"],
+    ["Farms", "fa-cow"],
+    ["Arctic", "fa-snowflake"],
+    ["Domes", "fa-igloo"],
+    ["Boats", "fa-sailboat"]
+];
+%>
+
+<section class="listing-hero">
+
+    <p class="eyebrow">
+        FIND YOUR NEXT STAY
+    </p>
+
+    <h1>
+        Space to unwind, wherever you go.
+    </h1>
+
+    <p>
+        Discover beautiful places to stay, from weekend escapes to long, slow getaways.
+    </p>
+
+</section>
+
+<section class="filter-bar" aria-label="Browse stay categories">
+
+    <a
+        class="filter-chip <%= !selectedCategory ? 'is-active' : '' %>"
+        href="/listings"
+    >
+        All stays
+    </a>
+
+    <% categories.forEach(([name, icon]) => { %>
+
+        <a
+            class="filter-chip <%= selectedCategory === name ? 'is-active' : '' %>"
+            href="/listings?category=<%= encodeURIComponent(name) %>"
+        >
+            <i class="fa-solid <%= icon %>"></i>
+            <span><%= name %></span>
+        </a>
+
+    <% }) %>
+
+</section>
+
+<div class="listing-toolbar">
+
+    <p>
+        <strong><%= allListings.length %></strong>
+        <%= allListings.length === 1 ? 'stay' : 'stays' %>
+        <%= selectedCategory ? ` in ${selectedCategory}` : '' %>
+    </p>
+
+    <label class="tax-toggle" for="flexSwitchCheckDefault">
+
+        <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckDefault"
+        />
+
+        <span>Display total after taxes</span>
+
+    </label>
+
+</div>
+
+<% if (allListings.length) { %>
+
+    <div class="listing-grid">
+
+        <% for(let listing of allListings) { %>
+
+            <article class="listing-card">
+
+                <form
+                    class="save-card-form"
+                    action="/listings/<%= listing._id %>/save"
+                    method="POST"
+                >
+
+                    <button
+                        aria-label="Save <%= listing.title %>"
+                        class="save-heart"
+                    >
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                </form>
+
+                <a
+                    href="/listings/<%= listing._id %>"
+                    class="listing-link"
+                >
+
+                    <div class="listing-image-wrap">
+
+                        <img
+                            src="<%= listing.image.url %>"
+                            class="listing-image"
+                            alt="<%= listing.title %>"
+                        />
+
+                        <span class="listing-category">
+                            <%= listing.category || 'Trending' %>
+                        </span>
+
+                    </div>
+
+                    <div class="listing-card-body">
+
+                        <div>
+
+                            <h2><%= listing.title %></h2>
+
+                            <p>
+                                <%= listing.location %>,
+                                <%= listing.country %>
+                            </p>
+
+                        </div>
+
+                        <p class="listing-rating">
+
+                            <i class="fa-solid fa-star"></i>
+
+                            <%= listing.averageRating || 'New' %>
+
+                            <%= listing.reviewCount ? ` (${listing.reviewCount})` : '' %>
+
+                        </p>
+
+                        <p class="listing-price">
+
+                            ₹<%= listing.price.toLocaleString("en-IN") %>
+
+                            <span> night</span>
+
+                        </p>
+
+                        <p class="tax-info">
+
+                            Total before taxes:
+                            ₹<%= listing.price.toLocaleString("en-IN") %>
+
+                        </p>
+
+                    </div>
+
+                </a>
+
+            </article>
+
+        <% } %>
+
+    </div>
+
+<% } else { %>
+
+    <section class="empty-state">
+
+        <i class="fa-solid fa-house-circle-check"></i>
+
+        <h2>
+            No stays found yet
+        </h2>
+
+        <p>
+            <%= selectedCategory || searchQuery
+                ? 'Try another category or search phrase.'
+                : 'Be the first to share a wonderful place to stay.'
+            %>
+        </p>
+
+        <a
+            class="btn primary-btn"
+            href="/listings/new"
+        >
+            List your home
+        </a>
+
+    </section>
+
+<% } %>
+
+<script>
+
+    const taxSwitch = document.getElementById("flexSwitchCheckDefault");
+
+    taxSwitch.addEventListener("change", () => {
+
+        document.querySelectorAll(".tax-info").forEach((info) => {
+            info.classList.toggle("is-visible", taxSwitch.checked);
+        });
+
+    });
+
+</script>
