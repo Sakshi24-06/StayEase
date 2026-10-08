@@ -1,0 +1,63 @@
+<% if (success && success.length) { %>
+
+    <div
+        class="flash-message flash-success alert alert-dismissible fade show"
+        role="alert"
+    >
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        <div>
+
+            <strong>
+                All set
+            </strong>
+
+            <span>
+                <%= success %>
+            </span>
+
+        </div>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
+
+    </div>
+
+<% } %>
+
+<% if (error && error.length) { %>
+
+    <div
+        class="flash-message flash-error alert alert-dismissible fade show"
+        role="alert"
+    >
+
+        <i class="fa-solid fa-circle-exclamation"></i>
+
+        <div>
+
+            <strong>
+                Something needs attention
+            </strong>
+
+            <span>
+                <%= error %>
+            </span>
+
+        </div>
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+        ></button>
+
+    </div>
+
+<% } %>
